@@ -181,7 +181,7 @@ async function getDependenciesFromPackageReference(manifestFile, includeDev: boo
     getConditionalFrameworks(packageList.$.Condition) : [];
 
   for (const dep of packageList.PackageReference) {
-    const depName = dep.$.Include;
+    const depName = (dep.$.Include || dep.$.Update);
     const isDev = !!dep.$.developmentDependency;
     dependenciesResult.hasDevDependencies = dependenciesResult.hasDevDependencies || isDev;
     if (isDev && !includeDev) {
@@ -256,7 +256,7 @@ function buildSubTreeFromPackageReference(dep, isDev: boolean, manifestFile, tar
     const depSubTree: PkgTree = {
       depType: isDev ? DepType.dev : DepType.prod,
       dependencies: {},
-      name: dep.$.Include,
+      name: (dep.$.Include || dep.$.Update),
       // Version could be in attributes or as child node.
       version,
     };
@@ -267,7 +267,7 @@ function buildSubTreeFromPackageReference(dep, isDev: boolean, manifestFile, tar
 
     return depSubTree;
   } else {
-    return {name: dep.$.Include, withoutVersion: true};
+    return {name: (dep.$.Include || dep.$.Update), withoutVersion: true};
   }
 }
 

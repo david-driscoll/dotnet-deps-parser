@@ -20,6 +20,8 @@ const PROJ_FILE_EXTENSIONS = [
   '.csproj',
   '.vbproj',
   '.fsproj',
+  '.targets',
+  '.props',
 ];
 
 export {
